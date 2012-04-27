@@ -33,6 +33,7 @@ atheme.chanserv = {
           },
 
     getAccessList: function(client, channel) {
+                       if (client.data.chanserv === undefined) client.data.chanserv = new Object;
                        client.client.methodCall('atheme.command', [client.authcookie,
                                client.user, client.ip, 'ChanServ', 'FLAGS', channel],
                                function(error, value) {
@@ -45,6 +46,7 @@ atheme.chanserv = {
                                        var tuple = element.split(' ');
                                        parsedLines.push(tuple);
                                    })
+                                   client.data.chanserv.accessList = parsedLines;
                                })
                    },
 
@@ -91,7 +93,7 @@ atheme.memoserv = {
 
                           var fields = rawLine[0].split(' ', 6);
 
-                          return {from: fields[5], message: rawLine[2]};
+                          client.data.memoserv.memo = {from: fields[5], message: rawLine[2]};
                       });
           },
 
